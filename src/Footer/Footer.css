@@ -2,10 +2,12 @@ footer {
     text-align: center;
     width: 100%;
     background-color: turquoise;
-    padding: 1rem;
     color: ghostwhite;
-    top: 0;
-    bottom: 0;
+    padding-top: 10px;
+    padding-bottom: 0px;
+    position: fixed;
     height: 50px;
-    margin-top: 2rem;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
 }
