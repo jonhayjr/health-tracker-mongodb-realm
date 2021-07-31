@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 
 //Import Components
 import Header from '../Header/Header';
@@ -8,9 +8,9 @@ import Footer from '../Footer/Footer';
 import NoteDetail from '../NoteDetail/NoteDetail';
 
 const App = () => {
-  const defaultNotes = [{date: '07/31/2021', diet: 'tetett', mood: 'tetetet', symptoms: 'tetetet'}];
+
   const [showAddTask, setAddTask] = useState(true);
-  const [notes, setNotes] = useState(defaultNotes);
+  const [notes, setNotes] = useState([]);
 
   //Function to toggle show AddTaskForm
   const toggleShowAddTask = () => {
