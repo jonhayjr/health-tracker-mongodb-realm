@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This app allows users to monitor their health for the day and monitor things like diet, mood and symptoms.  Click [`here`](https://health-tracker-frontend.netlify.app/) for a live preview.
 
 ## Available Scripts
 
