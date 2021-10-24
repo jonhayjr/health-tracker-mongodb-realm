@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import { Switch, Route, BrowserRouter} from 'react-router-dom';
+import { Switch, Route, HashRouter} from 'react-router-dom';
 
 //Import Components
 import Header from '../Header/Header';
@@ -19,12 +19,12 @@ const App = () => {
   return (
     <div>
       <Header/>
-      <BrowserRouter>
+      <HashRouter>
           <Switch>
             <Route exact path="/" render={(props) => (<Notes onClick={toggleShowAddTask} showAddTask={showAddTask}/>)}/>
             <Route exact path="/notes/:id/update" component={UpdateNote}/>
           </Switch>
-      </BrowserRouter>
+      </HashRouter>
       <Footer/>
     </div>
   );
