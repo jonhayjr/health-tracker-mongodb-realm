@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Health Tracker App
 
 This app allows users to monitor their health for the day and monitor things like diet, mood and symptoms.  The front end was built using React and the back end was built using MongoDB for the DB and MongoDB Realm webhooks for the API.  Click [`here`](https://jh-health-tracker.netlify.app) for a live preview.
 
