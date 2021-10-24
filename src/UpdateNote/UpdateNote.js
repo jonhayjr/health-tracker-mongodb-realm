@@ -1,17 +1,52 @@
-import {useState} from 'react';
-import './Form.css';
+import {useState, useEffect} from 'react';
+
+//Import CSS
+import './UpdateNote.css';
+
+//Import modules
 import axios from 'axios';
+import Moment from 'moment';
 
 //Import config
 import Config from '../config';
 
-const Form = ({notes}) => {
+const UpdateNote = (props) => {
 
+    const [notes, setNotes] = useState('');
     const [date, setDate] = useState('');
     const [diet, setDiet] = useState('');
     const [mood, setMood] = useState('');
     const [symptoms, setSymptoms] = useState('');
     const [exercise, setExercise] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [previousId, setPreviousId] = useState('');
+
+    
+    useEffect(() => {
+        //Current id from params
+        const id = props.match.params.id;
+
+        //Only make api call if it's a new id
+        if (previousId !== id) {
+            //Set isLoading to true  
+            setIsLoading(true);
+        
+            //Get note data from api
+            axios.get(`${Config.apiGetIdURL}?Id=${id}`)
+            .then(res => { 
+                setNotes(res.data)
+                setDate(Moment(res.data.date).format('yyy-MM-D'))
+                setDiet(res.data.diet || '')
+                setMood(res.data.mood || '')
+                setSymptoms(res.data.symptoms || '')
+                setExercise(res.data.exercise || '')
+                setPreviousId(id)
+            })
+
+            //Set isLoading to false
+            setIsLoading(false);
+        }
+    }, [props.match.params.id, previousId])
 
     const handleChange = (e) => {
         const name = e.target.name;
@@ -33,9 +68,11 @@ const Form = ({notes}) => {
         //Prevent Default Form Behavior
         e.preventDefault();
 
-    
+        const id = props.match.params.id;
+
         //Create object with form values
         const note = {
+            date,
             diet,
             mood,
             symptoms,
@@ -43,47 +80,42 @@ const Form = ({notes}) => {
         }
         
         //Post Note using API
-        axios.post(`${Config.apiPostURL}`, note)
-       
-
-        //Clear state for all form fields
-        setDate('');
-        setDiet('');
-        setMood('');
-        setSymptoms('');
-        setExercise('');
-        
-        
+        axios.put(`${Config.apiUpdateURL}?Id=${id}`, note)
     }
+
 
     return (
         <div className="form">
-            <h2>Add Note</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3 form-div">
+            <h2>Update Note</h2>
+            { isLoading && notes
+            ? <p className="text-center lead mt-4">Loading....</p>
+            :
+                <form onSubmit={handleSubmit}>
+                <div className="mb-3">
                     <label htmlFor="date" className="form-label">Date</label>
                     <input type="date" className="form-control" id="date" name="date" value={date} onChange={handleChange} required/>
                 </div>
-                <div className="mb-3 form-div">
+                <div className="mb-3">
                     <label htmlFor="diet" className="form-label">Diet</label>
                     <textarea className="form-control" id="diet" name="diet" rows="3" onChange={handleChange} value={diet} required></textarea>
                 </div>
-                <div className="mb-3 form-div">
+                <div className="mb-3">
                     <label htmlFor="mood" className="form-label">Mood</label>
                     <textarea className="form-control" id="mood" name="mood" rows="3" onChange={handleChange} value={mood} required></textarea>
                 </div>
-                <div className="mb-3 form-div">
+                <div className="mb-3">
                     <label htmlFor="symptoms" className="form-label">Symptoms</label>
                     <textarea className="form-control" id="symptoms" name="symptoms" rows="3" onChange={handleChange} value={symptoms}></textarea>
                 </div>
-                <div className="mb-3 form-div">
+                <div className="mb-3">
                     <label htmlFor="exercise" className="form-label">Exercise</label>
                     <textarea className="form-control" id="exercise" name="exercise" rows="3" onChange={handleChange} value={exercise}></textarea>
                 </div>
                 <button type="submit" className="btn btn-primary w-75">Submit</button>
-            </form>
+            </form>}
+            <a className="btn w-75 mt-2 btn-secondary mt-5" href={`/`}>Go Home</a>
         </div>
     )
 }
 
-export default Form;
+export default UpdateNote

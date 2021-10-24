@@ -2,12 +2,9 @@
     text-align: center;
     width: 100%;
     margin-top: 1rem;
-}
-
-.form-div {
     padding-right: 0.75rem;
     padding-left: 0.75rem;
-    margin: 0 auto;
+    padding-bottom: 5rem;
 }
 
 @media (min-width: 768px) {
