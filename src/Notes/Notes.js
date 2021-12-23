@@ -2,7 +2,6 @@ import {useState, useEffect} from 'react';
 
 //Import modules
 import axios from 'axios';
-import Moment from 'moment';
 
 //import CSS
 import './Notes.css';
@@ -24,11 +23,12 @@ const Notes = ({onClick, showAddTask}) => {
         setIsLoading(true);
         axios.get(`${Config.apiGetURL}`)
         .then(res => {
-            setNotes(res.data);
+            setNotes(res.data); 
         })
 
           //Set isLoading to false
-          setIsLoading(false)
+          setIsLoading(false);
+
     }, [notes])
 
     const handleDelete = (e) => {
@@ -42,12 +42,17 @@ const Notes = ({onClick, showAddTask}) => {
         axios.delete(`${Config.apiDeleteURL}?Id=${id}`);
     }
 
+    /*Function for custom date format*/
+    const getDateFormatLong = (d) => {
+        return (new Date(+d)).toLocaleDateString('en-us', { month: 'long', day: '2-digit', year: 'numeric', timeZone:'UTC'})
+    }
+
     const noteElements = notes ?
     notes.map((note, index) => 
         ( 
             <div className="card" key={note._id.$oid}>
                 <div className="card-header">
-                    <p>{Moment(note.date).format('MMMM Do YYYY')}</p>
+                    <p>{getDateFormatLong(note.date.$date.$numberLong)}</p>
                 </div>
                 <ul className="list-group list-group-flush">
                     <li className="list-group-item">Diet: {note.diet}</li>

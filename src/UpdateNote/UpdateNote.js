@@ -5,7 +5,6 @@ import './UpdateNote.css';
 
 //Import modules
 import axios from 'axios';
-import Moment from 'moment';
 
 //Import config
 import Config from '../config';
@@ -35,7 +34,8 @@ const UpdateNote = (props) => {
             axios.get(`${Config.apiGetIdURL}?Id=${id}`)
             .then(res => { 
                 setNotes(res.data)
-                setDate(Moment(res.data.date).format('yyy-MM-D'))
+                const newDate = getDateFormatShort(res.data.date.$date.$numberLong);
+                setDate(newDate)
                 setDiet(res.data.diet || '')
                 setMood(res.data.mood || '')
                 setSymptoms(res.data.symptoms || '')
@@ -47,6 +47,11 @@ const UpdateNote = (props) => {
             setIsLoading(false);
         }
     }, [props.match.params.id, previousId])
+
+    /*Function for custom date format*/
+    const getDateFormatShort = (d) => {
+        return (new Date(+d)).toLocaleDateString('fr-CA', {timeZone: 'UTC'});
+    }
 
     const handleChange = (e) => {
         const name = e.target.name;

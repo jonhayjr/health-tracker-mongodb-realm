@@ -33,9 +33,9 @@ const Form = ({notes}) => {
         //Prevent Default Form Behavior
         e.preventDefault();
 
-    
         //Create object with form values
         const note = {
+            date,
             diet,
             mood,
             symptoms,
